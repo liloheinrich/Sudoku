@@ -23,7 +23,7 @@ def clue_clauses(n, s, clues, clauses):
             else:
                 clauses.append([-s[x-1][y-1][i]])
 
-def filled_clauses(n, s, clauses):
+def fill_val_clauses(n, s, clauses):
     """ Creates clauses to ensure there is at least one number in each location. 
 
     inputs
@@ -40,8 +40,58 @@ def filled_clauses(n, s, clauses):
                 long_clause.append(s[x][y][z])
             clauses.append(long_clause)
 
-def rowcol_clauses(n, s, clauses):
-    """ Creates clauses to ensure each number appears at most once in each row & column. 
+def fill_row_clauses(n, s, clauses):
+    """ Creates clauses to ensure each number appears at least once in each row. 
+
+    inputs
+        n: the size of the sudoku puzzle
+        s: 3D array, maps each (row, col, val) combination to a unique integer identifier
+        clauses: 2D array of clauses with literals represented by integers
+    """
+
+    # at least one value has to be true for each location to ensure the puzzle is filled out
+    for y in range(n*n):
+        for z in range(n*n):
+            long_clause = []
+            for x in range(n*n):
+                long_clause.append(s[x][y][z])
+            clauses.append(long_clause)
+
+def fill_col_clauses(n, s, clauses):
+    """ Creates clauses to ensure each number appears at least once in each column. 
+
+    inputs
+        n: the size of the sudoku puzzle
+        s: 3D array, maps each (row, col, val) combination to a unique integer identifier
+        clauses: 2D array of clauses with literals represented by integers
+    """
+
+    # at least one value has to be true for each location to ensure the puzzle is filled out
+    for x in range(n*n):
+        for z in range(n*n):
+            long_clause = []
+            for y in range(n*n):
+                long_clause.append(s[x][y][z])
+            clauses.append(long_clause)
+
+def row_clauses(n, s, clauses):
+    """ Creates clauses to ensure each number appears at most once in each row. 
+
+    inputs
+        n: the size of the sudoku puzzle
+        s: 3D array, maps each (row, col, val) combination to a unique integer identifier
+        clauses: 2D array of clauses with literals represented by integers
+    """
+
+    # if a value z shows up twice in row x, the clause will not be satisfied
+    for x in range(n*n):
+        for y in range(n*n-1):
+            for z in range(n*n):
+                for i in range(y+1,n*n):
+                    clauses.append([-s[x][y][z], -s[x][i][z]])
+
+def col_clauses(n, s, clauses):
+    """ Creates clauses to ensure each number appears at most once in each column. 
 
     inputs
         n: the size of the sudoku puzzle
@@ -56,15 +106,24 @@ def rowcol_clauses(n, s, clauses):
                 for i in range(x+1,n*n):
                     clauses.append([-s[x][y][z], -s[i][y][z]])
 
-    # if a value z shows up twice in row x, the clause will not be satisfied
+def val_clauses(n, s, clauses):
+    """ Creates clauses to ensure there is at most one number in each entry.
+
+    inputs
+        n: the size of the sudoku puzzle
+        s: 3D array, maps each (row, col, val) combination to a unique integer identifier
+        clauses: 2D array of clauses with literals represented by integers
+    """
+
+    # if a value z shows up twice in column y, the clause will not be satisfied
     for x in range(n*n):
-        for y in range(n*n-1):
-            for z in range(n*n):
-                for i in range(y+1,n*n):
-                    clauses.append([-s[x][y][z], -s[x][i][z]])
+        for y in range(n*n):
+            for z in range(n*n-1):
+                for i in range(z+1,n*n):
+                    clauses.append([-s[x][y][z], -s[x][y][i]])
 
 def box_clauses(n, s, clauses):
-    """ Creates clauses to ensure each number appears only once in each sub-grid. 
+    """ Creates clauses to ensure each number appears at most once in each sub-grid. 
 
     inputs
         n: the size of the sudoku puzzle
@@ -144,7 +203,7 @@ def print_puzzle(n, clues):
         print()
     print()
 
-def solve_puzzle(n, s, clues, clauses):
+def solve_puzzle(n, s, clues, clauses, use_extended=False):
     """ Creates the necessary clauses and runs the dpll solver.
     
     inputs
@@ -158,9 +217,16 @@ def solve_puzzle(n, s, clues, clauses):
         assm: dictionary of literals to their satisfying assignments
     """
     clue_clauses(n, s, clues, clauses)
-    filled_clauses(n, s, clauses)
-    rowcol_clauses(n, s, clauses)
+    fill_val_clauses(n, s, clauses)
+    row_clauses(n, s, clauses)
+    col_clauses(n, s, clauses)
     box_clauses(n, s, clauses)
+
+    # optional extended clauses, can help make complex problems easier to solve
+    if use_extended:
+        val_clauses(n, s, clauses)
+        fill_row_clauses(n, s, clauses)
+        fill_col_clauses(n, s, clauses)
 
     # solver returns boolean satisfiability and final variable assignments
     return dpll_solve.dpll(clauses)
