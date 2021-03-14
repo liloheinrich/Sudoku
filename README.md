@@ -9,4 +9,4 @@ To run, use `python sudoku.py "filename.txt"`
     - {(row,col): val, (row2,col2): val2, ...}
     - Note: start the row and column indexing at 1
 
-Eight example puzzles are provided. Warning: puzzles 3 and 5 take a very long/undetermined amount of time to run since they are the most difficult.
+Eight example puzzles are provided. Warning: puzzles 3 and 5 take a very long/undetermined amount of time to run as they are the most difficult.
