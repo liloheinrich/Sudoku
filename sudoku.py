@@ -31,8 +31,6 @@ def fill_val_clauses(n, s, clauses):
         s: 3D array, maps each (row, col, val) combination to a unique integer identifier
         clauses: 2D array of clauses with literals represented by integers
     """
-
-    # at least one value has to be true for each location to ensure the puzzle is filled out
     for x in range(n*n):
         for y in range(n*n):
             long_clause = []
@@ -48,8 +46,6 @@ def fill_row_clauses(n, s, clauses):
         s: 3D array, maps each (row, col, val) combination to a unique integer identifier
         clauses: 2D array of clauses with literals represented by integers
     """
-
-    # at least one value has to be true for each location to ensure the puzzle is filled out
     for y in range(n*n):
         for z in range(n*n):
             long_clause = []
@@ -65,8 +61,6 @@ def fill_col_clauses(n, s, clauses):
         s: 3D array, maps each (row, col, val) combination to a unique integer identifier
         clauses: 2D array of clauses with literals represented by integers
     """
-
-    # at least one value has to be true for each location to ensure the puzzle is filled out
     for x in range(n*n):
         for z in range(n*n):
             long_clause = []
