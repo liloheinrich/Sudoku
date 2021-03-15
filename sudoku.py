@@ -252,6 +252,30 @@ def print_solution(n, s, assm):
         print()
     return sudoku_sol
 
+def print_dimacs(n, s, clues, clauses):
+    """ Prints the whole problem in DIMACS format, for easy plug-in to other SAT solvers.
+    
+    inputs
+        n: the size of the sudoku puzzle
+        s: 3D array, maps each (row, col, val) combination to a unique integer identifier
+        clues: dictionary of sudoku puzzle clues as (x,y)-locations mapped to z-values
+        clauses: 2D array of clauses with literals represented by integers
+    """
+    for x in range(n*n):
+        for y in range(n*n):
+            for z in range(n*n):
+                print(s[x][y][z], end=" ")
+    print()
+    clue_clauses(n, s, clues, clauses)
+    fill_val_clauses(n, s, clauses)
+    row_clauses(n, s, clauses)
+    col_clauses(n, s, clauses)
+    box_clauses(n, s, clauses)
+    for c in clauses:
+        for l in c:
+            print(l, end=" ")
+        print()
+
 
 n, clues = read_puzzle()
 print_puzzle(n, clues)
@@ -260,7 +284,8 @@ print_puzzle(n, clues)
 s = [[[(n*n*n*n*x) + (n*n*y) + z + 1 for x in range(n*n)] for y in range(n*n)] for z in range(n*n)]
 clauses = []
 
-sat, assm = solve_puzzle(n, s, clues, clauses)
+# use_extended adds redundant clauses to the encoding, but makes it easier to solve hard problems
+sat, assm = solve_puzzle(n, s, clues, clauses, use_extended=True)
 print("Solvable?", sat)
 print()
 
