@@ -1,6 +1,8 @@
 # Sudoku
 DPLL SAT solver applied to Sudoku
-See [Lab Report](https://github.com/liloheinrich/Sudoku/Lab_1.pdf) for more information
+
+See [Lab Report](https://github.com/liloheinrich/Sudoku/blob/main/Lab_1.pdf) for more information
+
 
 To run, use `python sudoku.py "filename.txt"`
 
