@@ -2,7 +2,7 @@
 
 Advanced Algorithms, Spring 2021
 
-By Hwei-Shin, Alex, and Lilo
+Team members: Hwei-Shin, Alex, and Lilo
 
 
 See [Lab Report](https://github.com/liloheinrich/Sudoku/blob/main/Lab_1.pdf) for more information
