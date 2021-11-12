@@ -1,7 +1,10 @@
 # Sudoku
 DPLL SAT solver applied to Sudoku
+
 Advanced Algorithms, Spring 2021
-Hwei-Shin, Alex, and Lilo
+
+By Hwei-Shin, Alex, and Lilo
+
 
 See [Lab Report](https://github.com/liloheinrich/Sudoku/blob/main/Lab_1.pdf) for more information
 
