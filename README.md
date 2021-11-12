@@ -1,5 +1,4 @@
-# Sudoku
-DPLL SAT solver applied to Sudoku
+# DPLL SAT Solver applied to Sudoku
 
 Advanced Algorithms, Spring 2021
 
