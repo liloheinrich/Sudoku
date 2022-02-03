@@ -17,3 +17,5 @@ To run, use `python sudoku.py "filename.txt"`
     - Note: start the row and column indexing at 1
 
 Eight example puzzles are provided. Warning: some puzzles may take longer to run than others, due to difficulty level.
+
+To try your own, write it in the format specified inside of a .txt file, then run the program!
